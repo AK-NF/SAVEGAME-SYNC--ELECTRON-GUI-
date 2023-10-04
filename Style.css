@@ -1,0 +1,523 @@
+* {
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+h2, h3{
+    padding-bottom: 1rem;
+}
+.ProfileSelection{
+    width: 61vw;
+}
+
+
+body {
+    position: relative;
+
+    height: 100vh;
+    width: 100vw;
+
+    background-color: rgb(32, 32, 32);
+    color: white;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: start;
+    align-items: start;
+} 
+
+
+#WindowControlBar{
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+
+    height: 10vh;
+    width: 100vw;
+
+    border-bottom: 1px rgba(43, 188, 255, 40%) solid;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+#WindowIconAndName{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    align-items: center;
+    column-gap: .15rem;
+    padding: .2rem;
+}
+#WindowIcon{
+    height: 1rem;
+    width: 1rem;
+
+    background-image: url(SVG/cloud-svgrepo-com.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: invert(1);
+}
+#WindowName{
+    margin-top: .1rem;
+    font-size: .7rem;
+    pointer-events: none;
+}
+
+#WindowControls{
+    -webkit-app-region: none;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: end;
+    align-items: center;
+}
+#WindowCloseButton, #WindowMinimizeButton{
+    pointer-events: initial;
+    width: 7vw;
+    height: 10vw;
+    display: grid;
+    place-items: center;
+
+    transition: background-color .25s;
+}
+#WindowCloseButton svg{
+    width: 70%;
+    height: 70%;
+
+}
+#WindowMinimizeButton svg{
+    width: 40%;
+    height: 40%;
+}
+#WindowCloseButton:hover{
+    background-color: rgba(255, 0, 0, .7);
+}
+#WindowCloseButton:active:hover{
+    transition: background-color 0s;
+    background-color: rgba(32, 32, 32, 0);
+}
+
+
+#Content {
+    height: 90vh;
+    width: 100vw;
+
+    background-color: rgb(32, 32, 32);
+    color: white;
+
+    display: grid;
+
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr;
+}
+
+
+nav{
+    width: 15vw;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    place-items: center;
+}
+.SidebarButton{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    border-right: 1px rgba(43, 188, 255, 40%) solid;
+    border-bottom: 1px rgba(43, 188, 255, 40%) solid;
+
+    transition: background-color .5s;
+}
+.NavIcons{
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: invert(100%);
+}
+#SyncIcon{
+    background-image: url(SVG/cloud-svgrepo-com.svg);
+}
+#LogsIcon{
+    background-image: url(SVG/logs-svgrepo-com.svg);
+}
+#AuthIcon{
+    background-image: url(SVG/user-lock-svgrepo-com.svg);
+}
+
+main{
+    position: relative;
+    width: 85vw;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+#AlertWindow{
+    background-color: rgba(255, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+
+    font-size: smaller;
+    color: white;
+
+    width: 100%;
+    padding: .5rem;
+
+    position: absolute;
+    bottom: 0px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    transition: background-color .5s;
+    animation: AlertCreate 1s ease 0s 1 normal forwards;
+}
+
+@keyframes AlertCreate {
+	0% {
+        filter: blur(10px);
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+
+	100% {
+        filter: blur(0px);
+		opacity: 1;
+		transform: translateX(0%);
+	}
+}
+
+#CloseAlertWindow{
+    width: 2rem;
+    height: 2rem;
+
+    background-image: url(SVG/close-svgrepo-com.svg);
+    filter: invert(1);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#AlertText{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: start;
+    justify-content: center;
+}
+
+
+
+
+.MenuElements{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(32, 32, 32);
+    color: white;
+
+    opacity: 0;
+    filter: blur(10px);
+
+    transition: opacity .5s, filter .5s;
+
+    position: absolute;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.ButtonAndIcon ,button, select, option, input[type="text"],input[type="password"]{
+    padding: 0.3rem;
+
+    background-color: rgb(32, 32, 32);
+    color: white;
+
+    border: 1px rgba(43, 188, 255, 40%) solid;
+    border-radius: 0.25rem;
+    outline: none;
+
+    transition: background-color .5s;
+}
+.ButtonAndIcon:hover, button:hover, select:hover, option:hover, .SidebarButton:hover,input[type="text"]:hover,input[type="password"]:hover{
+    background-color: rgba(43, 188, 255, 0.255)
+}
+
+
+.DontShow{
+   display: none !important;
+}
+
+
+.WithoutNavAuthMenu{
+    width: 100vw !important;
+}
+
+
+
+
+.Textinput-Container{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr;
+
+    padding-bottom: .5rem;
+}
+#AuthInputs{ /*  for Auth Menu serperate because of design reasons  */
+    grid-template-columns: 2fr 5fr;
+}
+.Textinput-Label-Container{
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    margin-right: .5rem;
+    line-height: 1rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: end;
+    justify-content: space-between;
+}
+.Textinput-Label-Container label{
+    padding-bottom: 0.3rem;
+}
+
+#CreateProfileInputs > .Textinput-Input-Container > input[type="text"]{
+    width: 100%;
+}
+#EditProfileInputs > .Textinput-Input-Container > input[type="text"]{
+    width: 100%;
+}
+
+.Textinput-Input-Container{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: start;
+    justify-content: center;
+
+    line-height: .3rem;
+}
+
+.SidebarButton ,button, .ButtonAndIcon{
+    position: relative;
+    overflow: hidden;
+    transition: all .2s;
+}
+.SidebarButton:after, button:after,.ButtonAndIcon:after {
+    content: "";
+    background: rgb(43, 188, 255);
+    display: block;
+    position: absolute;
+    padding: 200%;
+    opacity: 0;
+    filter: blur(10px);
+    transition: padding 1s, opacity .6s, filter .3s;
+  } button:after, .ButtonAndIcon:after {
+    left: -50%;
+    top: 50%;
+    transform: translate(50%, -50%);
+  }
+  
+.SidebarButton:active:after,  button:active:after, .ButtonAndIcon:active:after {
+    padding: 0%;
+    opacity: 1;
+    filter: blur(0px);
+    transition: 0s;
+  }
+
+
+
+#SaveSyncMain{
+    padding-top: .5rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: start;
+    align-items: center;
+    text-align: center;
+
+    row-gap: 1rem;
+}
+.ProfilesContainer{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+}
+.ActionsContainer{
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 2fr 4fr;
+    grid-template-rows: 1fr;
+    padding-left: .5rem;
+}
+.ProfileImgContainer{
+    justify-self: center;
+    align-self: center;
+}
+#GameIMG{
+
+    display: grid;
+    place-items: center;
+
+    width: 100px;
+    height: 130px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    border: 1px rgba(43, 188, 255, 40%) solid;
+    border-radius: .25rem;
+}
+
+.ButtonsContainer{
+    justify-self: start;
+    align-self: start;
+
+    display: flex;
+    flex-flow: column nowrap;
+    row-gap: 2.5rem;
+    padding-left: .5rem;
+} 
+#SyncButtonsGroup,#ProfileButtonGroup{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    align-items: center;
+    column-gap: .25rem;
+}
+.ButtonAndIcon {
+    width: fit-content;
+    height: 1.5rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    align-items: center;
+
+    padding: 0rem;
+}
+ .ButtonTextBox {
+    font-size: smaller;
+
+    padding-top: .25rem;
+    padding-left: .2rem;
+    padding-right: .2rem;
+    height: 100%;
+
+    pointer-events: none;
+    border-right: 1px rgba(43, 188, 255, 40%) solid;
+}
+
+.ButtonIconBox{
+    align-self: center;
+    width: 1.5rem;
+    height: 100%;
+    background-position: center;
+    background-size: 1rem 1rem;
+    background-repeat: no-repeat;
+    filter: invert(1);
+}
+#UploadIconBox{
+    background-image: url(SVG/upload-svgrepo-com.svg);
+}
+#DownloadIconBox{
+    background-image: url(SVG/download-svgrepo-com.svg);
+}
+#EditIconBox{
+    background-image: url(SVG/edit-svgrepo-com.svg);
+}
+#DeleteIconBox{
+    background-image: url(SVG/delete-2-svgrepo-com.svg);
+}
+#NewIconBox{
+    background-image: url(SVG/new-svgrepo-com.svg);
+}
+
+
+.center-body-loading {
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 5rem;
+	height: 5rem;
+	/****** center box
+	width: 300px;
+	height: 300px;
+	border: solid 1px #aaa;
+	******/
+
+    opacity: 0;
+    filter: blur(10px);
+
+    transition: opacity .5s, filter .5s;
+}
+.loader-circle-17 {
+	font-family: sans-serif;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #A8AAAD;
+	border-radius: 50%;
+	border: 2px solid #C9CBCC;
+	position: relative;
+}
+.loader-circle-17:before {
+	content: 'LOADING';
+	font-size: 5px;
+    position: relative;
+    top: -13%;
+}
+.loader-circle-17:after {
+	content: '';
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 5px solid transparent;
+	border-top: 5px solid rgba(43, 188, 255, 40%);
+	position: absolute;
+	top: -7px;
+	left: -7px;
+	animation: anm-loader-circle-17 2s ease infinite;
+	display: inline-block;
+}
+@keyframes anm-loader-circle-17 {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+
+#LogsMenu > textarea{
+    font-size: 10px;
+
+    color: white;
+    background-color: rgba(32,32,32,1);
+
+    width: 100%;
+    height: 100%;
+
+    resize: none;
+}

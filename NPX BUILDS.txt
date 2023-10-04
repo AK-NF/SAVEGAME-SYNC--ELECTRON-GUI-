@@ -1,0 +1,1 @@
+npx electron-packager . "SG-Sync GUI v0.3 (x64)" --platform win32 --arch x64 --overwrite

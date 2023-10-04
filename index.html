@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="Style.css" rel="stylesheet">
+        <script src="jquery.com_jquery-3.7.1.min.js"></script>
+
+        <title>SG-Sync</title>
+    </head>
+
+
+    <body>
+        <!------------ Window Bar ------------->
+        <div id="WindowControlBar">
+
+            <div id="WindowIconAndName">
+                <div id="WindowIcon"> </div>
+                <span id="WindowName">SG-SYNC</span>
+            </div>
+
+            <div id="WindowControls">
+
+                <span id="WindowMinimizeButton" onclick="$('#WindowMinimizeButton').css('background-color', 'rgba(0, 0, 0, 0)'); appli.Minimize()">
+                    <svg fill="#292929" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve" stroke="#292929">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                        <g id="SVGRepo_iconCarrier"> <g> <path d="M50,48.5c0,0.8-0.7,1.5-1.5,1.5h-45C2.7,50,2,49.3,2,48.5v-3C2,44.7,2.7,44,3.5,44h45 c0.8,0,1.5,0.7,1.5,1.5V48.5z"/> </g> </g>    
+                    </svg>
+                </span>
+
+                <span id="WindowCloseButton" onclick="appli.Close()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_429_11083)">
+                        <path d="M7 7.00006L17 17.0001M7 17.0001L17 7.00006" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_429_11083">
+                        <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                        </defs>
+                    </svg>
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <div id="Content">
+
+            <!------------ Sidebar Menu ------------->
+            <nav id="SidebarOptions">
+                <a title="Sync" id="MainMenuButton" class="SidebarButton" onclick="DisplayMenuSelected('SaveSyncMain')"><span id="SyncIcon" class="NavIcons"></span></a>
+                <a title="Logs" id="LogsMenuButton" class="SidebarButton" onclick="appli.GetLogs().then((obj)=>{$('#LogsTextField').val(obj)}); DisplayMenuSelected('LogsMenu')"><span id="LogsIcon" class="NavIcons"></span></a>
+                <a title="Auth" id="EditAuthButton" class="SidebarButton" onclick="ShowEditAuthMenu(false)"><span id="AuthIcon" class="NavIcons"></span></a>
+            </nav>
+    
+
+            <main>
+
+                <!------------ Before Init Menu - Currently not used ------------->
+                <div id="BeforeInitElements" class="MenuElements">
+                    <h2>Loading JSON Files</h2>
+                </div>
+
+
+
+                <!------------ Logs Menu ------------->
+                <div id="LogsMenu" class="MenuElements">
+                    <textarea id="LogsTextField"></textarea>
+                </div>
+        
+
+
+
+                <!------------ Save Auth Menu ------------->
+                <div id="SaveAuth" class="MenuElements">
+
+                    <h2>MegaNz Login</h2>
+
+                    <div id="AuthInputs" class="Textinput-Container">
+
+                        <div class="Textinput-Label-Container">
+                            <label>E-Mail </label>
+                            <label>Password </label>
+                        </div>
+
+                        <div class="Textinput-Input-Container">
+                            <input id="AuthEmailField" type="text" placeholder="example@email.com" title="Your Email/Username for the login to MegaNZ"><br>
+                            <input id="AuthPasswordField" type="password" placeholder="Pass1234" title="Your Password for the login to MegaNZ"><br>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <button id="SaveAuthButton">Save</button> <!--  onclick="SaveAuth()" replaced by dynamic listener creation in renderer.js -->
+                    </div>
+
+                </div>
+        
+
+
+
+                <!------------ Create Profile Menu ------------->
+                <div id="CreateProfile" class="MenuElements">
+
+                    <h2>Create Profile</h2>
+
+                    <div id="CreateProfileInputs" class="Textinput-Container">
+                        <div class="Textinput-Label-Container">
+                            <label>Name </label>
+                            <label>Key ID </label>
+                            <label>Path </label>
+                        </div>
+
+                        <div class="Textinput-Input-Container">
+                            <input id="CreateProfileNameField" type="text" placeholder="Profile Name 123" title="The name that is displayed in the selection list"><br>
+                            <input id="CreateProfileKeyIDField" type="text" placeholder="ExampleName" title="Name of the image in IMG Folder + how the savefile is named in the cloud"><br>
+                            <input id="CreateProfilePathField" type="text" placeholder="C:\...\..." title="Path to the save directory you want to sync"><br>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <button id="CreateProfileButton">Save</button> <!--  onclick="CreateProfile()" replaced by dynamic listener creation in renderer.js -->
+                        <button id="CancleCreateProfileButton" onclick="DisplayMenuSelected('SaveSyncMain')">Cancel</button>
+                    </div>
+
+                </div>
+        
+
+
+                <!------------ Edit Profile Menu ------------->
+                <div id="EditProfile" class="MenuElements">
+
+                    <h3 id="ProfileSelectedHeader"></h3>
+
+                    <div id="EditProfileInputs" class="Textinput-Container">
+                        <div class="Textinput-Label-Container">
+                            <label>Name</label>
+                            <label>Key ID</label>
+                            <label>Path</label>
+                        </div>
+
+                        <div class="Textinput-Input-Container">
+                            <input id="EditProfileNameField" type="text" placeholder="Profile Name 123" title="The name that is displayed in the selection list"><br>
+                            <input id="EditProfileKeyIDField" type="text" placeholder="ExampleName" title="Name of the image in IMG Folder + how the savefile is named in the cloud"><br>
+                            <input id="EditProfilePathField" type="text" placeholder="C:\...\..." title="Path to the save directory you want to sync"><br>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <button onclick="EditProfile($('#Sync-ProfileSelection').val())">Save</button>
+                        <button onclick="DisplayMenuSelected('SaveSyncMain')">Cancel</button>
+                    </div>
+
+                </div>
+        
+                <div id="LogsMenu" class="MenuElements">      
+
+                </div>
+        
+        
+
+
+                <!------------ Main Menu ------------->
+                <div id="SaveSyncMain" class="MenuElements">
+    
+                    <div class="center-body-loading">
+                        <div class="loader-circle-17"></div>
+                    </div>
+    
+                    <div class="ProfilesContainer">
+                        <label>Profiles:</label><select id="Sync-ProfileSelection" class="ProfileSelection"></select>
+                    </div>
+    
+                    <div class="ActionsContainer">
+        
+                        <div id="Sync-ProfileImgContainer" class="ProfileImgContainer">
+                            <div id="GameIMG"></div>
+                        </div>
+
+                        <div id="Sync-ButtonsContainer" class="ButtonsContainer">
+                            <div id="ProfileButtonGroup">
+
+                                <div class="ButtonAndIcon" id="NewProfileButton" onclick="ShowCreateProfileMenu(false)">
+                                    <span class="ButtonTextBox">New</span><div class="ButtonIconBox" id="NewIconBox"></div>
+                                </div>
+
+                                <div class="ButtonAndIcon" id="EditProfileButton" onclick="ShowEditProfileMenu($('#Sync-ProfileSelection').val())">
+                                    <span class="ButtonTextBox">Edit</span><div class="ButtonIconBox" id="EditIconBox"></div>
+                                </div>
+
+                                <div class="ButtonAndIcon" id="DeleteProfileButton" onclick="DeleteEntryProfile($('#Sync-ProfileSelection').val())">
+                                    <span class="ButtonTextBox">Delete</span><div class="ButtonIconBox" id="DeleteIconBox"></div>
+                                </div>
+
+                            </div>
+
+                            <div id="SyncButtonsGroup">
+                                <div class="ButtonAndIcon" id="UploadButton" onclick="
+                                (()=>{
+                                    ChangeDisplayState_LoadingAnim(true);
+                                    appli.Upload(Profiles.profile[$('#Sync-ProfileSelection').val()].Path, Profiles.profile[$('#Sync-ProfileSelection').val()].KeyID).then((obj)=>{console.log(obj); CreateAlertWindow(obj); ChangeDisplayState_LoadingAnim(false);})
+                                })()">
+                                <span class="ButtonTextBox">Upload</span><div class="ButtonIconBox" id="UploadIconBox"></div>
+                                </div>
+    
+                                <div class="ButtonAndIcon" id="DownloadButton" onclick="
+                                (()=>{
+                                    ChangeDisplayState_LoadingAnim(true);
+                                    appli.Download(Profiles.profile[$('#Sync-ProfileSelection').val()].Path, Profiles.profile[$('#Sync-ProfileSelection').val()].KeyID).then((obj)=>{console.log(obj); CreateAlertWindow(obj); ChangeDisplayState_LoadingAnim(false);}) 
+                                })()">
+                                    <span class="ButtonTextBox">Download</span><div class="ButtonIconBox" id="DownloadIconBox"></div>
+                                </div>
+    
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+        
+            </main>
+        </div>
+
+
+        <script src="renderer.js"></script>
+    </body>
+</html>
